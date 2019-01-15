@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>猜拳大賽 誰贏10次誰就贏</h1>
+    <p id="ourWinCount"></p>
+    <p id="computerWinCount"></p>
+
+    <button onclick="game('scissors')">
+      <img src="scissors.jpg" alt="">
+    </button>
+    <button onclick="game('stone')">
+      <img src="stone.jpg" alt="">
+    </button>
+    <button onclick="game('paper')">
+      <img src="paper.jpeg" alt="">
+    </button>
+
+    <div id="ourHit"></div>
+    <div id="vs" class="text-vs"></div>
+    <div id="computerHit"></div>
+
+    <p id="resultWord" class="text-resultword"></p>
+    <p id="result" class="text-result"></p>
+  </div>
+
+
+  <script>
+    let ourWinCount = 0
+    let computerWinCount = 0
+
+    function game(hit){
+      console.log(hit)
+      //為了讓圖片改變，跑出自己出的剪刀石頭布
+      if(hit == 'scissors'){
+        document.getElementById('ourHit').innerHTML = '<img src="scissors.jpg" alt="">'
+      } else if(hit == 'stone'){
+        document.getElementById('ourHit').innerHTML = '<img src="stone.jpg" alt="">'
+      } else {
+        document.getElementById('ourHit').innerHTML = '<img src="paper.jpeg" alt="">'
+      } 
+      
+      let randomNumber = Math.random()
+      let computerHit = ''
+      let result = ''
+      if(randomNumber< 1/3){
+        console.log('電腦：'+'scissors')
+        computerHit = 'scissors'
+        document.getElementById('computerHit').innerHTML = '<img src="scissors.jpg" alt="">'
+        if(hit == 'scissors'){
+          result='平手'
+        } else if(hit == 'stone'){
+          result='你贏了！！'
+          ourWinCount = ourWinCount + 1
+        } else {
+          result='輸了..'
+          computerWinCount = computerWinCount + 1
+        }
+      } else if(randomNumber< 2/3){
+        console.log('電腦：'+'stone')
+        computerHit = 'stone'
+        document.getElementById('computerHit').innerHTML = '<img src="stone.jpg" alt="">'
+        if(hit == 'scissors'){
+          result='輸了..'
+          computerWinCount = computerWinCount + 1
+        } else if(hit == 'stone'){
+          result='平手'
+        } else {
+          result='你贏了！！'
+          ourWinCount = ourWinCount + 1
+        }
+      } else {
+        console.log('電腦：'+'paper')
+        computerHit = 'paper'
+        document.getElementById('computerHit').innerHTML = '<img src="paper.jpeg" alt="">'
+        if(hit =='scissors'){
+          result='你贏了！！'
+          ourWinCount = ourWinCount + 1
+        } else if(hit == 'stone'){
+          result='輸了..'
+          computerWinCount = computerWinCount + 1
+        } else {
+          result='平手'
+        }
+      }
+      //這兩行若放在戰績計算前面，在確認完alert視窗前戰績不會歸零
+      // document.getElementById('ourWinCount').innerHTML = '玩家累積贏的次數：' + ourWinCount + '次'
+      // document.getElementById('computerWinCount').innerHTML = '電腦累積贏的次數：' + computerWinCount + '次'
+      document.getElementById('resultWord').innerHTML =  '你出了' + hit + '，電腦出了' + computerHit
+      document.getElementById('vs').innerHTML = 'V.S.'
+      document.getElementById('result').innerHTML = result
+
+      if(ourWinCount>=10){
+        //若沒設置延遲顯示alert，戰績還沒跳成10之前alert視窗就先跳出來了
+        setTimeout(function(){
+          alert(ourWinCount + ' 比 ' + computerWinCount + '，你贏了！！')
+          ourWinCount = 0
+          computerWinCount = 0
+        },50)
+      }
+      if(computerWinCount>=10){
+        //若沒設置延遲顯示alert，戰績還沒跳成10之前alert視窗就先跳出來了
+        setTimeout(function(){
+          alert(ourWinCount + ' 比 ' + computerWinCount + '，電腦贏了！！')
+          ourWinCount = 0
+          computerWinCount = 0
+        },50)
+      }
+      
+      //這兩行移到戰績計算後面的話，確認完alert視窗後，戰績就會馬上歸零
+      document.getElementById('ourWinCount').innerHTML = '玩家累積贏的回合數：' + ourWinCount + '次'
+      document.getElementById('computerWinCount').innerHTML = '電腦累積贏的回合數：' + computerWinCount + '次'
+    }
+  </script>
+</body>
+</html>
